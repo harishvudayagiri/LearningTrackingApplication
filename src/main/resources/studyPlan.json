@@ -1,50 +1,97 @@
-[
-  { "title": "Data Types & Variables", "category": "Java Fundamentals", "status": "Not Started", "scheduledDate": null },
-  { "title": "Operators & Expressions", "category": "Java Fundamentals", "status": "Not Started", "scheduledDate": null },
-  { "title": "Control Flow (if, switch)", "category": "Java Fundamentals", "status": "Not Started", "scheduledDate": null },
-  { "title": "Loops (for, while)", "category": "Java Fundamentals", "status": "Not Started", "scheduledDate": null },
-  { "title": "Methods & Parameters", "category": "Java Fundamentals", "status": "Not Started", "scheduledDate": null },
-  { "title": "Arrays & Strings", "category": "Java Fundamentals", "status": "Not Started", "scheduledDate": null },
-  { "title": "Classes & Objects", "category": "Object-Oriented Programming", "status": "Not Started", "scheduledDate": null },
-  { "title": "Constructors", "category": "Object-Oriented Programming", "status": "Not Started", "scheduledDate": null },
-  { "title": "Inheritance", "category": "Object-Oriented Programming", "status": "Not Started", "scheduledDate": null },
-  { "title": "Polymorphism & Overloading", "category": "Object-Oriented Programming", "status": "Not Started", "scheduledDate": null },
-  { "title": "Abstraction & Interfaces", "category": "Object-Oriented Programming", "status": "Not Started", "scheduledDate": null },
-  { "title": "Encapsulation", "category": "Object-Oriented Programming", "status": "Not Started", "scheduledDate": null },
-  { "title": "Exception Handling", "category": "Advanced Java & Essentials", "status": "Not Started", "scheduledDate": null },
-  { "title": "Java Collections Framework", "category": "Advanced Java & Essentials", "status": "Not Started", "scheduledDate": null },
-  { "title": "Generics", "category": "Advanced Java & Essentials", "status": "Not Started", "scheduledDate": null },
-  { "title": "Java Streams & Lambda", "category": "Advanced Java & Essentials", "status": "Not Started", "scheduledDate": null },
-  { "title": "Multithreading & Concurrency", "category": "Advanced Java & Essentials", "status": "Not Started", "scheduledDate": null },
-  { "title": "I/O and Serialization", "category": "Advanced Java & Essentials", "status": "Not Started", "scheduledDate": null },
-  { "title": "Spring Boot Basics", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "Spring Boot Annotations", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "REST API Design & Controllers", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "Request Mapping & DTOs", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "JPA & Hibernate Basics", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "Entity Mapping & Repositories", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "Spring Boot Validation", "category": "Spring & Backend Development", "status": "Not Started", "scheduledDate": null },
-  { "title": "Microservices Architecture", "category": "Microservices & Advanced Backend", "status": "Not Started", "scheduledDate": null },
-  { "title": "Spring Cloud & Eureka", "category": "Microservices & Advanced Backend", "status": "Not Started", "scheduledDate": null },
-  { "title": "API Gateway & Routing", "category": "Microservices & Advanced Backend", "status": "Not Started", "scheduledDate": null },
-  { "title": "Service-to-Service Communication", "category": "Microservices & Advanced Backend", "status": "Not Started", "scheduledDate": null },
-  { "title": "Basic SQL Queries", "category": "Database & SQL", "status": "Not Started", "scheduledDate": null },
-  { "title": "Joins & Aggregations", "category": "Database & SQL", "status": "Not Started", "scheduledDate": null },
-  { "title": "Indexes & Constraints", "category": "Database & SQL", "status": "Not Started", "scheduledDate": null },
-  { "title": "Transactions & ACID", "category": "Database & SQL", "status": "Not Started", "scheduledDate": null },
-  { "title": "SQL vs NoSQL", "category": "Database & SQL", "status": "Not Started", "scheduledDate": null },
-  { "title": "Arrays & Strings", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "Sorting & Searching", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "Stacks & Queues", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "Linked Lists", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "Trees & Binary Trees", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "Graphs & Traversals", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "Dynamic Programming", "category": "DSA (Data Structures & Algorithms)", "status": "Not Started", "scheduledDate": null },
-  { "title": "HLD Basics", "category": "System Design", "status": "Not Started", "scheduledDate": null },
-  { "title": "LLD Principles & UML", "category": "System Design", "status": "Not Started", "scheduledDate": null },
-  { "title": "Design Patterns (Singleton, Factory, etc.)", "category": "System Design", "status": "Not Started", "scheduledDate": null },
-  { "title": "Git & GitHub", "category": "Tools & DevOps Basics", "status": "Not Started", "scheduledDate": null },
-  { "title": "Maven & Project Structure", "category": "Tools & DevOps Basics", "status": "Not Started", "scheduledDate": null },
-  { "title": "Docker (Basics)", "category": "Tools & DevOps Basics", "status": "Not Started", "scheduledDate": null },
-  { "title": "CI/CD Concepts", "category": "Tools & DevOps Basics", "status": "Not Started", "scheduledDate": null }
-]
+{
+  "studyPlan": [
+    {
+      "category": "Java Fundamentals",
+      "topics": [
+        { "title": "Data Types & Variables", "estimatedHours": 1.0, "prerequisites": [] },
+        { "title": "Operators & Expressions", "estimatedHours": 1.0, "prerequisites": ["Data Types & Variables"] },
+        { "title": "Control Flow (if, switch)", "estimatedHours": 1.0, "prerequisites": ["Operators & Expressions"] },
+        { "title": "Loops (for, while)", "estimatedHours": 1.0, "prerequisites": ["Control Flow (if, switch)"] },
+        { "title": "Methods & Parameters", "estimatedHours": 1.0, "prerequisites": ["Loops (for, while)"] },
+        { "title": "Arrays & Strings", "estimatedHours": 1.5, "prerequisites": ["Methods & Parameters"] }
+      ]
+    },
+    {
+      "category": "Object-Oriented Programming",
+      "topics": [
+        { "title": "Classes & Objects", "estimatedHours": 1.0, "prerequisites": [] },
+        { "title": "Constructors", "estimatedHours": 1.0, "prerequisites": ["Classes & Objects"] },
+        { "title": "Inheritance", "estimatedHours": 1.5, "prerequisites": ["Constructors"] },
+        { "title": "Polymorphism & Overloading", "estimatedHours": 1.5, "prerequisites": ["Inheritance"] },
+        { "title": "Abstraction & Interfaces", "estimatedHours": 1.5, "prerequisites": ["Polymorphism & Overloading"] },
+        { "title": "Encapsulation", "estimatedHours": 1.0, "prerequisites": ["Abstraction & Interfaces"] }
+      ]
+    },
+    {
+      "category": "Advanced Java & Essentials",
+      "topics": [
+        { "title": "Exception Handling", "estimatedHours": 1.0, "prerequisites": [] },
+        { "title": "Java Collections Framework", "estimatedHours": 1.5, "prerequisites": ["Exception Handling"] },
+        { "title": "Generics", "estimatedHours": 1.0, "prerequisites": ["Java Collections Framework"] },
+        { "title": "Java Streams & Lambda", "estimatedHours": 1.5, "prerequisites": ["Generics"] },
+        { "title": "Multithreading & Concurrency", "estimatedHours": 2.0, "prerequisites": ["Java Streams & Lambda"] },
+        { "title": "I/O and Serialization", "estimatedHours": 1.0, "prerequisites": ["Multithreading & Concurrency"] }
+      ]
+    },
+    {
+      "category": "Spring & Backend Development",
+      "topics": [
+        { "title": "Spring Boot Basics", "estimatedHours": 1.0, "prerequisites": [] },
+        { "title": "Spring Boot Annotations", "estimatedHours": 1.0, "prerequisites": ["Spring Boot Basics"] },
+        { "title": "REST API Design & Controllers", "estimatedHours": 1.0, "prerequisites": ["Spring Boot Annotations"] },
+        { "title": "Request Mapping & DTOs", "estimatedHours": 1.0, "prerequisites": ["REST API Design & Controllers"] },
+        { "title": "JPA & Hibernate Basics", "estimatedHours": 1.5, "prerequisites": ["Request Mapping & DTOs"] },
+        { "title": "Entity Mapping & Repositories", "estimatedHours": 1.5, "prerequisites": ["JPA & Hibernate Basics"] },
+        { "title": "Spring Boot Validation", "estimatedHours": 1.0, "prerequisites": ["Entity Mapping & Repositories"] }
+      ]
+    },
+    {
+      "category": "Microservices & Advanced Backend",
+      "topics": [
+        { "title": "Microservices Architecture", "estimatedHours": 1.5, "prerequisites": ["Spring Boot Validation"] },
+        { "title": "Spring Cloud & Eureka", "estimatedHours": 1.5, "prerequisites": ["Microservices Architecture"] },
+        { "title": "API Gateway & Routing", "estimatedHours": 1.5, "prerequisites": ["Spring Cloud & Eureka"] },
+        { "title": "Service-to-Service Communication", "estimatedHours": 1.5, "prerequisites": ["API Gateway & Routing"] }
+      ]
+    },
+    {
+      "category": "Database & SQL",
+      "topics": [
+        { "title": "Basic SQL Queries", "estimatedHours": 1.0, "prerequisites": [] },
+        { "title": "Joins & Aggregations", "estimatedHours": 1.5, "prerequisites": ["Basic SQL Queries"] },
+        { "title": "Indexes & Constraints", "estimatedHours": 1.0, "prerequisites": ["Joins & Aggregations"] },
+        { "title": "Transactions & ACID", "estimatedHours": 1.0, "prerequisites": ["Indexes & Constraints"] },
+        { "title": "SQL vs NoSQL", "estimatedHours": 1.0, "prerequisites": ["Transactions & ACID"] }
+      ]
+    },
+    {
+      "category": "DSA (Data Structures & Algorithms)",
+      "topics": [
+        { "title": "Arrays & Strings", "estimatedHours": 1.5, "prerequisites": [] },
+        { "title": "Sorting & Searching", "estimatedHours": 1.5, "prerequisites": ["Arrays & Strings"] },
+        { "title": "Stacks & Queues", "estimatedHours": 1.5, "prerequisites": ["Sorting & Searching"] },
+        { "title": "Linked Lists", "estimatedHours": 1.5, "prerequisites": ["Stacks & Queues"] },
+        { "title": "Trees & Binary Trees", "estimatedHours": 2.0, "prerequisites": ["Linked Lists"] },
+        { "title": "Graphs & Traversals", "estimatedHours": 2.0, "prerequisites": ["Trees & Binary Trees"] },
+        { "title": "Dynamic Programming", "estimatedHours": 2.5, "prerequisites": ["Graphs & Traversals"] }
+      ]
+    },
+    {
+      "category": "System Design",
+      "topics": [
+        { "title": "HLD Basics", "estimatedHours": 1.5, "prerequisites": [] },
+        { "title": "LLD Principles & UML", "estimatedHours": 1.5, "prerequisites": ["HLD Basics"] },
+        { "title": "Design Patterns (Singleton, Factory, etc.)", "estimatedHours": 2.0, "prerequisites": ["LLD Principles & UML"] }
+      ]
+    },
+    {
+      "category": "Tools & DevOps Basics",
+      "topics": [
+        { "title": "Git & GitHub", "estimatedHours": 1.0, "prerequisites": [] },
+        { "title": "Maven & Project Structure", "estimatedHours": 1.0, "prerequisites": ["Git & GitHub"] },
+        { "title": "Docker (Basics)", "estimatedHours": 1.5, "prerequisites": ["Maven & Project Structure"] },
+        { "title": "CI/CD Concepts", "estimatedHours": 1.5, "prerequisites": ["Docker (Basics)"] }
+      ]
+    }
+  ]
+}
