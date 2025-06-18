@@ -17,11 +17,22 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-
 @Service
 public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
+
+    private static final Map<String, Set<DayOfWeek>> CATEGORY_DAY_MAP = Map.of(
+            "DSA", Set.of(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY),
+            "LLD", Set.of(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+            "Java", EnumSet.allOf(DayOfWeek.class)
+    );
+
+    private static final List<String> CATEGORY_PRIORITY = List.of(
+            "Java", "DSA", "Springboot", "Microservices", "Rest API", "System Design", "SQL"
+    );
+
+    private final Map<LocalDate, Set<String>> dailyCategoryBlock = new HashMap<>();
 
     public List<TaskDTO> getTasksForDate(LocalDate date) {
         return taskRepository.findByScheduledDate(date).stream()
@@ -52,36 +63,49 @@ public class TaskService {
     }
 
     public String loadTasksFromJson() {
+        taskRepository.deleteAll();
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             InputStream inputStream = new ClassPathResource("studyPlan.json").getInputStream();
             List<TaskDTO> taskDTOs = objectMapper.readValue(inputStream, new TypeReference<>() {});
 
-            Map<String, TaskDTO> taskMap = taskDTOs.stream()
+            List<String> activeCategories = CATEGORY_PRIORITY.subList(0, 2);
+            List<TaskDTO> activeTasks = taskDTOs.stream()
+                    .filter(task -> activeCategories.contains(task.getCategory()))
+                    .collect(Collectors.toList());
+
+            Map<String, TaskDTO> taskMap = activeTasks.stream()
                     .collect(Collectors.toMap(TaskDTO::getTitle, t -> t));
 
             Map<String, LocalDate> scheduledDates = new HashMap<>();
-            LocalDate currentDate = LocalDate.now();
+            LocalDate today = LocalDate.now();
+            List<TaskDTO> scheduledTasks = new ArrayList<>();
 
-            for (TaskDTO taskDTO : taskDTOs) {
-                if (taskDTO.getPrerequisites() == null || taskDTO.getPrerequisites().isEmpty()) {
-                    scheduledDates.put(taskDTO.getTitle(), currentDate);
-                } else {
-                    LocalDate maxDate = currentDate;
-                    for (String prereq : taskDTO.getPrerequisites()) {
-                        LocalDate prereqDate = scheduledDates.getOrDefault(prereq, currentDate);
-                        if (prereqDate.isAfter(maxDate)) {
-                            maxDate = prereqDate;
-                        }
-                    }
-                    scheduledDates.put(taskDTO.getTitle(), maxDate.plusDays(1));
+            List<TaskDTO> sortedByPrerequisite = sortByPrerequisites(activeTasks);
+
+            for (TaskDTO task : sortedByPrerequisite) {
+                List<TaskDTO> parts = splitIfNeeded(task);
+                for (TaskDTO part : parts) {
+                    LocalDate date = getNextValidDate(today, part.getCategory());
+                    part.setScheduledDate(date);
+                    blockDay(date, part.getCategory());
+                    scheduledDates.put(part.getTitle(), date);
+                    scheduledTasks.add(part);
                 }
             }
 
-            for (TaskDTO dto : taskDTOs) {
-                dto.setScheduledDate(scheduledDates.get(dto.getTitle()));
-                Task task = TaskMapper.toEntity(dto);
-                taskRepository.save(task);
+            for (TaskDTO dto : scheduledTasks) {
+                taskRepository.save(TaskMapper.toEntity(dto));
+            }
+
+            // Save the unscheduled ones with null scheduledDate
+            List<TaskDTO> remaining = taskDTOs.stream()
+                    .filter(task -> !activeCategories.contains(task.getCategory()))
+                    .collect(Collectors.toList());
+
+            for (TaskDTO unscheduled : remaining) {
+                taskRepository.save(TaskMapper.toEntity(unscheduled));
             }
 
             return "Tasks loaded and scheduled successfully.";
@@ -90,5 +114,56 @@ public class TaskService {
             e.printStackTrace();
             return "Error loading tasks: " + e.getMessage();
         }
+    }
+
+    private List<TaskDTO> splitIfNeeded(TaskDTO original) {
+        double est = original.getEstimatedHours();
+        if (est <= 2) return List.of(original);
+
+        int parts = (int) Math.ceil(est / 2.0);
+        List<TaskDTO> split = new ArrayList<>();
+        for (int i = 1; i <= parts; i++) {
+            TaskDTO part = new TaskDTO(original);
+            part.setTitle(original.getTitle() + " (Part " + i + "/" + parts + ")");
+            part.setEstimatedHours((i == parts && est % 2 != 0) ? est % 2 : 2);
+            split.add(part);
+        }
+        return split;
+    }
+
+    private List<TaskDTO> sortByPrerequisites(List<TaskDTO> tasks) {
+        List<TaskDTO> sorted = new ArrayList<>();
+        Set<String> added = new HashSet<>();
+        while (sorted.size() < tasks.size()) {
+            for (TaskDTO task : tasks) {
+                if (added.contains(task.getTitle())) continue;
+                if (task.getPrerequisites() == null || added.containsAll(task.getPrerequisites())) {
+                    sorted.add(task);
+                    added.add(task.getTitle());
+                }
+            }
+        }
+        return sorted;
+    }
+
+    private LocalDate getNextValidDate(LocalDate start, String category) {
+        LocalDate date = start;
+        while (true) {
+            if (!CATEGORY_DAY_MAP.containsKey(category)) return date;
+            if (!CATEGORY_DAY_MAP.get(category).contains(date.getDayOfWeek())) {
+                date = date.plusDays(1);
+                continue;
+            }
+            if (dailyCategoryBlock.getOrDefault(date, new HashSet<>()).contains(category)) {
+                date = date.plusDays(1);
+                continue;
+            }
+            break;
+        }
+        return date;
+    }
+
+    private void blockDay(LocalDate date, String category) {
+        dailyCategoryBlock.computeIfAbsent(date, k -> new HashSet<>()).add(category);
     }
 }
