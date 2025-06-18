@@ -1,97 +1,232 @@
-{
-  "studyPlan": [
-    {
-      "category": "Java Fundamentals",
-      "topics": [
-        { "title": "Data Types & Variables", "estimatedHours": 1.0, "prerequisites": [] },
-        { "title": "Operators & Expressions", "estimatedHours": 1.0, "prerequisites": ["Data Types & Variables"] },
-        { "title": "Control Flow (if, switch)", "estimatedHours": 1.0, "prerequisites": ["Operators & Expressions"] },
-        { "title": "Loops (for, while)", "estimatedHours": 1.0, "prerequisites": ["Control Flow (if, switch)"] },
-        { "title": "Methods & Parameters", "estimatedHours": 1.0, "prerequisites": ["Loops (for, while)"] },
-        { "title": "Arrays & Strings", "estimatedHours": 1.5, "prerequisites": ["Methods & Parameters"] }
-      ]
-    },
-    {
-      "category": "Object-Oriented Programming",
-      "topics": [
-        { "title": "Classes & Objects", "estimatedHours": 1.0, "prerequisites": [] },
-        { "title": "Constructors", "estimatedHours": 1.0, "prerequisites": ["Classes & Objects"] },
-        { "title": "Inheritance", "estimatedHours": 1.5, "prerequisites": ["Constructors"] },
-        { "title": "Polymorphism & Overloading", "estimatedHours": 1.5, "prerequisites": ["Inheritance"] },
-        { "title": "Abstraction & Interfaces", "estimatedHours": 1.5, "prerequisites": ["Polymorphism & Overloading"] },
-        { "title": "Encapsulation", "estimatedHours": 1.0, "prerequisites": ["Abstraction & Interfaces"] }
-      ]
-    },
-    {
-      "category": "Advanced Java & Essentials",
-      "topics": [
-        { "title": "Exception Handling", "estimatedHours": 1.0, "prerequisites": [] },
-        { "title": "Java Collections Framework", "estimatedHours": 1.5, "prerequisites": ["Exception Handling"] },
-        { "title": "Generics", "estimatedHours": 1.0, "prerequisites": ["Java Collections Framework"] },
-        { "title": "Java Streams & Lambda", "estimatedHours": 1.5, "prerequisites": ["Generics"] },
-        { "title": "Multithreading & Concurrency", "estimatedHours": 2.0, "prerequisites": ["Java Streams & Lambda"] },
-        { "title": "I/O and Serialization", "estimatedHours": 1.0, "prerequisites": ["Multithreading & Concurrency"] }
-      ]
-    },
-    {
-      "category": "Spring & Backend Development",
-      "topics": [
-        { "title": "Spring Boot Basics", "estimatedHours": 1.0, "prerequisites": [] },
-        { "title": "Spring Boot Annotations", "estimatedHours": 1.0, "prerequisites": ["Spring Boot Basics"] },
-        { "title": "REST API Design & Controllers", "estimatedHours": 1.0, "prerequisites": ["Spring Boot Annotations"] },
-        { "title": "Request Mapping & DTOs", "estimatedHours": 1.0, "prerequisites": ["REST API Design & Controllers"] },
-        { "title": "JPA & Hibernate Basics", "estimatedHours": 1.5, "prerequisites": ["Request Mapping & DTOs"] },
-        { "title": "Entity Mapping & Repositories", "estimatedHours": 1.5, "prerequisites": ["JPA & Hibernate Basics"] },
-        { "title": "Spring Boot Validation", "estimatedHours": 1.0, "prerequisites": ["Entity Mapping & Repositories"] }
-      ]
-    },
-    {
-      "category": "Microservices & Advanced Backend",
-      "topics": [
-        { "title": "Microservices Architecture", "estimatedHours": 1.5, "prerequisites": ["Spring Boot Validation"] },
-        { "title": "Spring Cloud & Eureka", "estimatedHours": 1.5, "prerequisites": ["Microservices Architecture"] },
-        { "title": "API Gateway & Routing", "estimatedHours": 1.5, "prerequisites": ["Spring Cloud & Eureka"] },
-        { "title": "Service-to-Service Communication", "estimatedHours": 1.5, "prerequisites": ["API Gateway & Routing"] }
-      ]
-    },
-    {
-      "category": "Database & SQL",
-      "topics": [
-        { "title": "Basic SQL Queries", "estimatedHours": 1.0, "prerequisites": [] },
-        { "title": "Joins & Aggregations", "estimatedHours": 1.5, "prerequisites": ["Basic SQL Queries"] },
-        { "title": "Indexes & Constraints", "estimatedHours": 1.0, "prerequisites": ["Joins & Aggregations"] },
-        { "title": "Transactions & ACID", "estimatedHours": 1.0, "prerequisites": ["Indexes & Constraints"] },
-        { "title": "SQL vs NoSQL", "estimatedHours": 1.0, "prerequisites": ["Transactions & ACID"] }
-      ]
-    },
-    {
-      "category": "DSA (Data Structures & Algorithms)",
-      "topics": [
-        { "title": "Arrays & Strings", "estimatedHours": 1.5, "prerequisites": [] },
-        { "title": "Sorting & Searching", "estimatedHours": 1.5, "prerequisites": ["Arrays & Strings"] },
-        { "title": "Stacks & Queues", "estimatedHours": 1.5, "prerequisites": ["Sorting & Searching"] },
-        { "title": "Linked Lists", "estimatedHours": 1.5, "prerequisites": ["Stacks & Queues"] },
-        { "title": "Trees & Binary Trees", "estimatedHours": 2.0, "prerequisites": ["Linked Lists"] },
-        { "title": "Graphs & Traversals", "estimatedHours": 2.0, "prerequisites": ["Trees & Binary Trees"] },
-        { "title": "Dynamic Programming", "estimatedHours": 2.5, "prerequisites": ["Graphs & Traversals"] }
-      ]
-    },
-    {
-      "category": "System Design",
-      "topics": [
-        { "title": "HLD Basics", "estimatedHours": 1.5, "prerequisites": [] },
-        { "title": "LLD Principles & UML", "estimatedHours": 1.5, "prerequisites": ["HLD Basics"] },
-        { "title": "Design Patterns (Singleton, Factory, etc.)", "estimatedHours": 2.0, "prerequisites": ["LLD Principles & UML"] }
-      ]
-    },
-    {
-      "category": "Tools & DevOps Basics",
-      "topics": [
-        { "title": "Git & GitHub", "estimatedHours": 1.0, "prerequisites": [] },
-        { "title": "Maven & Project Structure", "estimatedHours": 1.0, "prerequisites": ["Git & GitHub"] },
-        { "title": "Docker (Basics)", "estimatedHours": 1.5, "prerequisites": ["Maven & Project Structure"] },
-        { "title": "CI/CD Concepts", "estimatedHours": 1.5, "prerequisites": ["Docker (Basics)"] }
-      ]
-    }
-  ]
-}
+[
+  {
+    "title": "Java Basics",
+    "category": "Java",
+    "status": "NOT_STARTED",
+    "estimatedHours": 2,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": []
+  },
+  {
+    "title": "OOP in Java",
+    "category": "Java",
+    "status": "NOT_STARTED",
+    "estimatedHours": 3,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Java Basics"]
+  },
+  {
+    "title": "Java Collections",
+    "category": "Java",
+    "status": "NOT_STARTED",
+    "estimatedHours": 3,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["OOP in Java"]
+  },
+  {
+    "title": "Multithreading",
+    "category": "Java",
+    "status": "NOT_STARTED",
+    "estimatedHours": 4,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Java Collections"]
+  },
+  {
+    "title": "Exception Handling",
+    "category": "Java",
+    "status": "NOT_STARTED",
+    "estimatedHours": 2,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": ["Java Basics"]
+  },
+  {
+    "title": "Streams and Lambdas",
+    "category": "Java",
+    "status": "NOT_STARTED",
+    "estimatedHours": 2.5,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": ["Java Collections"]
+  },
+  {
+    "title": "Spring Boot Basics",
+    "category": "Spring Boot",
+    "status": "NOT_STARTED",
+    "estimatedHours": 3,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": ["Java Collections"]
+  },
+  {
+    "title": "Spring Boot REST APIs",
+    "category": "Spring Boot",
+    "status": "NOT_STARTED",
+    "estimatedHours": 4,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Spring Boot Basics"]
+  },
+  {
+    "title": "Spring Boot + JPA",
+    "category": "Spring Boot",
+    "status": "NOT_STARTED",
+    "estimatedHours": 4,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Spring Boot REST APIs"]
+  },
+  {
+    "title": "Spring Boot + Hibernate",
+    "category": "Spring Boot",
+    "status": "NOT_STARTED",
+    "estimatedHours": 3.5,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Spring Boot + JPA"]
+  },
+  {
+    "title": "Microservices Basics",
+    "category": "Microservices",
+    "status": "NOT_STARTED",
+    "estimatedHours": 3,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Spring Boot + Hibernate"]
+  },
+  {
+    "title": "REST API Design Principles",
+    "category": "REST API",
+    "status": "NOT_STARTED",
+    "estimatedHours": 2.5,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": ["Spring Boot REST APIs"]
+  },
+  {
+    "title": "PostgreSQL Basics",
+    "category": "SQL",
+    "status": "NOT_STARTED",
+    "estimatedHours": 2,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": []
+  },
+  {
+    "title": "Advanced SQL Queries",
+    "category": "SQL",
+    "status": "NOT_STARTED",
+    "estimatedHours": 3,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["PostgreSQL Basics"]
+  },
+  {
+    "title": "Joins and Aggregations",
+    "category": "SQL",
+    "status": "NOT_STARTED",
+    "estimatedHours": 2.5,
+    "actualHours": 0.0,
+    "rollover": false,
+    "scheduledDate": null,
+    "prerequisites": ["Advanced SQL Queries"]
+  },
+  {
+    "title": "DSA - Sorting & Searching",
+    "category": "DSA",
+    "status": "NOT_STARTED",
+    "estimatedHours": 6,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": []
+  },
+  {
+    "title": "DSA - Arrays & Strings",
+    "category": "DSA",
+    "status": "NOT_STARTED",
+    "estimatedHours": 6,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["DSA - Sorting & Searching"]
+  },
+  {
+    "title": "DSA - Linked Lists",
+    "category": "DSA",
+    "status": "NOT_STARTED",
+    "estimatedHours": 6,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["DSA - Arrays & Strings"]
+  },
+  {
+    "title": "DSA - Stacks & Queues",
+    "category": "DSA",
+    "status": "NOT_STARTED",
+    "estimatedHours": 6,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["DSA - Linked Lists"]
+  },
+  {
+    "title": "LLD - Class & Object Design",
+    "category": "System Design",
+    "status": "NOT_STARTED",
+    "estimatedHours": 4,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["OOP in Java"]
+  },
+  {
+    "title": "LLD - Design Patterns",
+    "category": "System Design",
+    "status": "NOT_STARTED",
+    "estimatedHours": 4.5,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["LLD - Class & Object Design"]
+  },
+  {
+    "title": "HLD - Scalability & Load Balancing",
+    "category": "System Design",
+    "status": "NOT_STARTED",
+    "estimatedHours": 5,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["Microservices Basics"]
+  },
+  {
+    "title": "HLD - Caching & Database Scaling",
+    "category": "System Design",
+    "status": "NOT_STARTED",
+    "estimatedHours": 5,
+    "actualHours": 0.0,
+    "rollover": true,
+    "scheduledDate": null,
+    "prerequisites": ["HLD - Scalability & Load Balancing"]
+  }
+]

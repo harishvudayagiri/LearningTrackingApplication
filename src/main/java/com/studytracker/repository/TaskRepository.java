@@ -8,5 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TaskRepository extends JpaRepository<Task, UUID> {
-
+    List<Task> findByScheduledDate(LocalDate date);
+    List<Task> findByStatus(Task.Status status);
+    List<Task> findAll();
+    Task findByTitle(String title);
 }
+
