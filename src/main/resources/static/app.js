@@ -1,7 +1,7 @@
 // === Replacing hardcoded sampleTasks with dynamic backend data ===
 
 // API endpoint URLs
-const API_BASE = "http://localhost:8080/api/tasks"; // Change if deployed
+const API_BASE = "/api/tasks"; // Change if deployed
 
 // Utility function to get formatted date string
 function formatDate(date) {
