@@ -1,0 +1,108 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header {
+    background-color: #3a7bd5;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3em;
+}
+
+header img {
+    width: 60px;
+    margin-right: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    flex: 1;
+    margin: 10px;
+    min-width: 280px;
+}
+
+.section h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Task Styles */
+.task {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f4f4f9;
+    border-radius: 4px;
+}
+
+/* Title in bold and blue */
+.task-title {
+    font-weight: bold;
+    color: #007BFF;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+/* Category in italic slanted blue */
+.task-category {
+    font-style: italic;
+    color: #007BFF;
+    font-size: 1em;
+    margin-left: 20px;
+}
+
+/* Tree-structured details with indentation */
+.task-details {
+    color: #555;
+    font-size: 0.9em;
+    margin-left: 40px;
+    line-height: 1.5;
+}
+
+/* Dropdown styles */
+.task-status-select {
+    margin-left: 40px;
+    padding: 5px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+}
