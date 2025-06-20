@@ -24,7 +24,9 @@ const dateMap = {
 async function fetchTasksByDate(date) {
     const response = await fetch(`${API_BASE}/date/${date}`);
     if (!response.ok) {
-        console.error(`Failed to fetch tasks for ${date}`);
+        console.error(`Failed to fetch tasks for ${date}. Status: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`Error details: ${errorText}`);
         return [];
     }
     return await response.json();
@@ -37,6 +39,36 @@ async function updateTaskStatus(taskId, status) {
     if (!response.ok) {
         alert('Failed to update task status');
     }
+}
+
+async function loadTasksFromJson() {
+    try {
+        const response = await fetch(`${API_BASE}/load`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({}) // Sending an empty JSON object as the body
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
+            throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        }
+        const message = await response.text();
+        alert('Reschedule Tasks operation successful: ' + message);
+        await refreshAllTasks(); // Refresh tasks after loading new ones
+    } catch (error) {
+        console.error('Error loading tasks:', error);
+        alert('Failed to reschedule tasks: ' + error.message);
+    }
+}
+
+async function refreshAllTasks() {
+    await displayTasksForDate('Yesterday', '#yesterday-tasks', dateMap.yesterday);
+    await displayTasksForDate('Today', '#today-tasks', dateMap.today);
+    await displayTasksForDate('Tomorrow', '#tomorrow-tasks', dateMap.tomorrow);
 }
 
 function createTaskCard(task) {
@@ -105,7 +137,10 @@ async function displayTasksForDate(label, containerSelector, dateStr) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    displayTasksForDate('Yesterday', '#yesterday-tasks', dateMap.yesterday);
-    displayTasksForDate('Today', '#today-tasks', dateMap.today);
-    displayTasksForDate('Tomorrow', '#tomorrow-tasks', dateMap.tomorrow);
+    refreshAllTasks();
+
+    const rescheduleButton = document.getElementById('reschedule-button');
+    if (rescheduleButton) {
+        rescheduleButton.addEventListener('click', loadTasksFromJson);
+    }
 });
