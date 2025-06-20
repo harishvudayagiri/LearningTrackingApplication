@@ -2,7 +2,6 @@ package com.studytracker.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studytracker.dto.StudyPlanInput;
 import com.studytracker.dto.TaskDTO;
 import com.studytracker.mapper.TaskMapper;
 import com.studytracker.model.Task;
@@ -10,17 +9,25 @@ import com.studytracker.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 @Service
 public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private static final Map<String, Set<DayOfWeek>> CATEGORY_DAY_MAP = Map.of(
             "DSA", Set.of(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY),
@@ -32,7 +39,7 @@ public class TaskService {
             "Java", "DSA", "Springboot", "Microservices", "Rest API", "System Design", "SQL"
     );
 
-    private final Map<LocalDate, Set<String>> dailyCategoryBlock = new HashMap<>();
+    private Map<LocalDate, Set<String>> dailyCategoryBlock = new HashMap<>();
 
     public List<TaskDTO> getTasksForDate(LocalDate date) {
         return taskRepository.findByScheduledDate(date).stream()
@@ -41,9 +48,9 @@ public class TaskService {
     }
 
     public TaskDTO updateTaskStatus(UUID id, Task.Status newStatus) {
-        Task task = taskRepository.findById(id).orElseThrow();
-        task.setStatus(newStatus);
-        return TaskMapper.toDTO(taskRepository.save(task));
+        taskRepository.updateTaskStatus(id, newStatus);
+        Task updated = taskRepository.findById(id).orElseThrow(); // only if DTO is needed
+        return TaskMapper.toDTO(updated);
     }
 
     public TaskDTO updateTask(UUID id, TaskDTO updatedDto) {
@@ -63,57 +70,93 @@ public class TaskService {
     }
 
     public String loadTasksFromJson() {
-        taskRepository.deleteAll();
-
+        List<TaskDTO> taskDTOs;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             InputStream inputStream = new ClassPathResource("studyPlan.json").getInputStream();
-            List<TaskDTO> taskDTOs = objectMapper.readValue(inputStream, new TypeReference<>() {});
-
-            List<String> activeCategories = CATEGORY_PRIORITY.subList(0, 2);
-            List<TaskDTO> activeTasks = taskDTOs.stream()
-                    .filter(task -> activeCategories.contains(task.getCategory()))
-                    .collect(Collectors.toList());
-
-            Map<String, TaskDTO> taskMap = activeTasks.stream()
-                    .collect(Collectors.toMap(TaskDTO::getTitle, t -> t));
-
-            Map<String, LocalDate> scheduledDates = new HashMap<>();
-            LocalDate today = LocalDate.now();
-            List<TaskDTO> scheduledTasks = new ArrayList<>();
-
-            List<TaskDTO> sortedByPrerequisite = sortByPrerequisites(activeTasks);
-
-            for (TaskDTO task : sortedByPrerequisite) {
-                List<TaskDTO> parts = splitIfNeeded(task);
-                for (TaskDTO part : parts) {
-                    LocalDate date = getNextValidDate(today, part.getCategory());
-                    part.setScheduledDate(date);
-                    blockDay(date, part.getCategory());
-                    scheduledDates.put(part.getTitle(), date);
-                    scheduledTasks.add(part);
-                }
-            }
-
-            for (TaskDTO dto : scheduledTasks) {
-                taskRepository.save(TaskMapper.toEntity(dto));
-            }
-
-            // Save the unscheduled ones with null scheduledDate
-            List<TaskDTO> remaining = taskDTOs.stream()
-                    .filter(task -> !activeCategories.contains(task.getCategory()))
-                    .collect(Collectors.toList());
-
-            for (TaskDTO unscheduled : remaining) {
-                taskRepository.save(TaskMapper.toEntity(unscheduled));
-            }
-
-            return "Tasks loaded and scheduled successfully.";
-
+            taskDTOs = objectMapper.readValue(inputStream, new TypeReference<>() {});
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error loading tasks: " + e.getMessage();
+            return "Failed to load JSON: " + e.getMessage();
         }
+
+        return saveTasks(taskDTOs);
+    }
+
+    @Transactional
+    public String saveTasks(List<TaskDTO> taskDTOs) {
+        long start = System.currentTimeMillis();
+
+        taskRepository.truncateTableTask();
+        taskRepository.truncateTableTaskPrerequisites();
+        dailyCategoryBlock.clear();
+
+        long afterTruncate = System.currentTimeMillis();
+
+        List<String> activeCategories = CATEGORY_PRIORITY.subList(0, 2);
+        List<TaskDTO> activeTasks = taskDTOs.stream()
+                .filter(task -> activeCategories.contains(task.getCategory()))
+                .collect(Collectors.toList());
+
+        List<TaskDTO> sortedByPrerequisite = sortByPrerequisites(activeTasks);
+
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Kolkata"));
+        List<Task> scheduledEntities = new ArrayList<>();
+
+        for (TaskDTO task : sortedByPrerequisite) {
+            List<TaskDTO> parts = splitIfNeeded(task);
+            for (TaskDTO part : parts) {
+                LocalDate date = getNextValidDate(today, part.getCategory());
+                part.setScheduledDate(date);
+                blockDay(date, part.getCategory());
+                scheduledEntities.add(TaskMapper.toEntity(part));
+            }
+        }
+
+        bulkInsert(scheduledEntities); // 🔁 new
+
+        List<Task> unscheduledEntities = taskDTOs.stream()
+                .filter(task -> !activeCategories.contains(task.getCategory()))
+                .map(TaskMapper::toEntity)
+                .collect(Collectors.toList());
+
+        bulkInsert(unscheduledEntities); // 🔁 new
+
+        long end = System.currentTimeMillis();
+        System.out.println("Truncate time: " + (afterTruncate - start) + "ms");
+        System.out.println("Total time: " + (end - start) + "ms");
+
+        return "Tasks loaded and scheduled successfully.";
+    }
+
+    private void bulkInsert(List<Task> tasks) {
+        if (tasks.isEmpty()) return;
+
+        for (Task task : tasks) {
+            if (task.getId() == null) {
+                task.setId(UUID.randomUUID());
+            }
+        }
+
+        String sql = "INSERT INTO task (id, title, category, scheduled_date, estimated_hours, actual_hours, status, is_rollover) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        jdbcTemplate.batchUpdate(sql, new org.springframework.jdbc.core.BatchPreparedStatementSetter() {
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Task t = tasks.get(i);
+                ps.setObject(1, t.getId());
+                ps.setString(2, t.getTitle());
+                ps.setString(3, t.getCategory());
+                ps.setObject(4, t.getScheduledDate());
+                ps.setDouble(5, t.getEstimatedHours());
+                ps.setDouble(6, t.getActualHours());
+                ps.setString(7, t.getStatus().name());
+                ps.setBoolean(8, t.isRollover());
+            }
+            public int getBatchSize() {
+                return tasks.size();
+            }
+        });
     }
 
     private List<TaskDTO> splitIfNeeded(TaskDTO original) {

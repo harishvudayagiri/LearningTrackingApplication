@@ -14,6 +14,8 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Make header a positioning context for absolute children */
+    min-height: 80px; /* Ensure enough height for button and content */
 }
 
 header h1 {
@@ -25,6 +27,28 @@ header img {
     width: 60px;
     margin-right: 20px;
 }
+
+/* Button styles for top-left positioning */
+.action-button {
+    background-color: #28a745; /* Green color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+
+    /* Positioning for top-left */
+    position: absolute; /* Position relative to the header */
+    top: 20px; /* Distance from the top of the header */
+    left: 20px; /* Distance from the left of the header */
+}
+
+.action-button:hover {
+    background-color: #218838;
+}
+
 
 .container {
     display: flex;
